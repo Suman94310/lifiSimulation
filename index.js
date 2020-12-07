@@ -27,14 +27,14 @@ window.onload = ()=>{
     let cars = []
     let carsProp = [
         {
-            velocity:{x:2,y:1.13},
-            position:{x:60,y:40},
+            velocity:{x:2,y:1.0},
+            position:{x:110,y:70},
             angle: 2,
             road:1
         },
         {
-            velocity:{x:2,y:1.13},
-            position:{x:60,y:window.innerHeight-40},
+            velocity:{x:2,y:1.0},
+            position:{x:110,y:window.innerHeight-70},
             angle: 1,
             road: -1
         }
@@ -56,8 +56,8 @@ window.onload = ()=>{
     for(let i=0; i<carsProp.length; i++){
         const carTexture = PIXI.Texture.from("./car.svg")
         cars.push(new PIXI.Sprite(carTexture))
-        cars[i].height = window.innerWidth/25
-        cars[i].width = window.innerWidth/35
+        cars[i].height = window.innerWidth/30
+        cars[i].width = window.innerWidth/42
         cars[i].anchor.x = 0.5
         cars[i].x = carsProp[i].position.x
         cars[i].y = carsProp[i].position.y
@@ -73,7 +73,7 @@ window.onload = ()=>{
         len = carsProp.length
         if(road1.length >= road2.length){
             if(road1.length){
-                carsProp[road1[0]].velocity = {x:2, y:1.13}
+                carsProp[road1[0]].velocity = {x:2, y:1.0}
             }
             if(road2.length && carsProp[road2[road2.length-1]].road){
                 carsProp[road2[0]].velocity = {x:0, y:0}
@@ -81,7 +81,7 @@ window.onload = ()=>{
         }
         else{
             if(road2.length){
-                carsProp[road2[0]].velocity = {x:2, y:1.13}
+                carsProp[road2[0]].velocity = {x:2, y:1.0}
             }
             if(road1.length && carsProp[road1[road1.length-1]].road){
                 carsProp[road1[0]].velocity = {x:0, y:0}
@@ -118,7 +118,7 @@ window.onload = ()=>{
                 }
                 if((carsProp[i].road ==1 || carsProp[i].road ==-1) && carsProp[i].velocity.x ==0 && carsProp[i].velocity.y == 0 && Math.abs(cars[j].x-cars[i].x) >70){
                     console.log("bl")
-                    carsProp[i].velocity = {x:2, y:1.13}
+                    carsProp[i].velocity = {x:2, y:1.0}
                 }
             }
             for(let j=0; j<cars.length; j++){
@@ -144,7 +144,7 @@ window.onload = ()=>{
             }
             if (flag){
                 carsProp.push({
-                    velocity:{x:2 ,y:1.13},
+                    velocity:{x:2 ,y:1.0},
                     position:{x:60,y:40 + Math.random()*window.innerHeight/20},
                     angle: 2,
                     road:1
@@ -156,14 +156,14 @@ window.onload = ()=>{
         }
         else{
             for(let k=0; k<len; k++){
-                if (cars[k].x <70 && carsProp[k].road==-1){
+                if (cars[k].x <130 && carsProp[k].road==-1){
                     flag = 0
                 }
             }
             if (flag){
                 carsProp.push({
-                    velocity:{x:2,y:1.13},
-                    position:{x:60,y:window.innerHeight-40 - Math.random()*window.innerHeight/20},
+                    velocity:{x:2,y:1.0},
+                    position:{x:110,y:window.innerHeight-40 - Math.random()*window.innerHeight/20},
                     angle: 1,
                     road:-1
                 })
@@ -175,8 +175,8 @@ window.onload = ()=>{
         if (flag){
             const carTexture = PIXI.Texture.from("./car.svg")
         cars.push(new PIXI.Sprite(carTexture))
-        cars[cars.length-1].height = window.innerWidth/25
-        cars[cars.length-1].width = window.innerWidth/35
+        cars[cars.length-1].height = window.innerWidth/30
+        cars[cars.length-1].width = window.innerWidth/42
         cars[cars.length-1].anchor.x = 0.5
         cars[cars.length-1].x = carsProp[cars.length-1].position.x
         cars[cars.length-1].y = carsProp[cars.length-1].position.y
