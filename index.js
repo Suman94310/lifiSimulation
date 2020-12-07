@@ -113,17 +113,19 @@ window.onload = ()=>{
             // }
 
             for(let j=0; j<cars.length; j++){
+                if(carsProp[i].road ==0 && carsProp[i].velocity.x ==0 && carsProp[i].velocity.y == 0 && Math.abs(cars[j].x-cars[i].x) >70){
+                    carsProp[i].velocity = {x:2, y:0}
+                }
+                if((carsProp[i].road ==1 || carsProp[i].road ==-1) && carsProp[i].velocity.x ==0 && carsProp[i].velocity.y == 0 && Math.abs(cars[j].x-cars[i].x) >70){
+                    console.log("bl")
+                    carsProp[i].velocity = {x:2, y:1.13}
+                }
+            }
+            for(let j=0; j<cars.length; j++){
                 if(i!==j && cars[i].x<cars[j].x && carsProp[i].road == carsProp[j].road && Math.abs(cars[j].x-cars[i].x) <70){
                     console.log("blyat")
                     carsProp[i].velocity = {x:0, y:0}
                     // console.log(carsProp[i], i)
-                }
-                else if((carsProp[i].road ==1 || carsProp[i].road ==-1) && carsProp[i].velocity.x ==0 && carsProp[i].velocity.y == 0 && Math.abs(cars[j].x-cars[i].x) >70){
-                    // console.log("bl")
-                    carsProp[i].velocity = {x:2, y:1.13}
-                }
-                else if(carsProp[i].road ==0 && carsProp[i].velocity.x ==0 && carsProp[i].velocity.y == 0 && Math.abs(cars[j].x-cars[i].x) >70){
-                    carsProp[i].velocity = {x:2, y:0}
                 }
             }
         }
