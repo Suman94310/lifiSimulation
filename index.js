@@ -70,12 +70,13 @@ window.onload = ()=>{
     // main loop
 
     app.ticker.add((delta)=>{
+        // console.log(cars[road1[0]].x)
         len = carsProp.length
         if(road1.length >= road2.length){
             if(road1.length){
                 carsProp[road1[0]].velocity = {x:2, y:1.0}
             }
-            if(road2.length && carsProp[road2[road2.length-1]].road){
+            if(road2.length && carsProp[road2[0]].road && cars[road2[0]].x > window.innerWidth/2 -200){
                 carsProp[road2[0]].velocity = {x:0, y:0}
             }
         }
@@ -83,7 +84,7 @@ window.onload = ()=>{
             if(road2.length){
                 carsProp[road2[0]].velocity = {x:2, y:1.0}
             }
-            if(road1.length && carsProp[road1[road1.length-1]].road){
+            if(road1.length && carsProp[road1[0]].road && cars[road1[0]].x > window.innerWidth/2 -200){
                 carsProp[road1[0]].velocity = {x:0, y:0}
             }
         }
@@ -122,7 +123,7 @@ window.onload = ()=>{
                 }
             }
             for(let j=0; j<cars.length; j++){
-                if(i!==j && cars[i].x<cars[j].x && carsProp[i].road == carsProp[j].road && Math.abs(cars[j].x-cars[i].x) <70){
+                if(i!==j && cars[i].x<cars[j].x && carsProp[i].road == carsProp[j].road && Math.abs(cars[j].x-cars[i].x) <90){
                     console.log("blyat")
                     carsProp[i].velocity = {x:0, y:0}
                     // console.log(carsProp[i], i)
