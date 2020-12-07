@@ -69,52 +69,27 @@ window.onload = ()=>{
 
     // main loop
 
-    let firstRoad1 = 0
-    let countRoad1 = 1
-    let firstRoad2 = 1
-    let countRoad2 = 1
-
     app.ticker.add((delta)=>{
         len = carsProp.length
-
-        // console.log(countRoad1, countRoad2, firstRoad1, firstRoad2)
-        // console.log(road1,road2)
         if(road1.length >= road2.length){
-            // console.log("yoyoyo")
             if(road1.length){
-                carsProp[road1[road1.length-1]].velocity = {x:2, y:1.13}
+                carsProp[road1[0]].velocity = {x:2, y:1.13}
             }
             if(road2.length && carsProp[road2[road2.length-1]].road){
-                carsProp[road2[road2.length-1]].velocity = {x:0, y:0}
+                carsProp[road2[0]].velocity = {x:0, y:0}
             }
         }
         else{
-            // console.log("dsf", countRoad1 > countRoad2, countRoad1, countRoad2, firstRoad1, firstRoad2)
             if(road2.length){
-                carsProp[road2[road2.length-1]].velocity = {x:2, y:1.13}
+                carsProp[road2[0]].velocity = {x:2, y:1.13}
             }
             if(road1.length && carsProp[road1[road1.length-1]].road){
-                carsProp[road1[road1.length-1]].velocity = {x:0, y:0}
+                carsProp[road1[0]].velocity = {x:0, y:0}
             }
         }
-        countRoad1 = 0
-        countRoad2 = 0
+
 
         for(let i=0; i<len; i++){
-// ---------------------------
-            if (carsProp[i].road == 1){
-                countRoad1+=1
-            }
-            if (carsProp[i].road == -1){
-                countRoad2+=1
-            }
-            if(countRoad1==1 && i > 1){
-                firstRoad1 = i
-            }
-            if(countRoad2==1 && i>1){
-                firstRoad2 = i
-            }
-// ---------------------------
 
             cars[i].x += carsProp[i].velocity.x*delta
             cars[i].y += carsProp[i].velocity.y*delta*carsProp[i].road
@@ -138,14 +113,16 @@ window.onload = ()=>{
             // }
 
             for(let j=0; j<cars.length; j++){
-                if(i!==j && cars[i].x<cars[j].x && carsProp[i].road == carsProp[j].road && (cars[j].x-cars[i].x) <70){
+                if(i!==j && cars[i].x<cars[j].x && carsProp[i].road == carsProp[j].road && Math.abs(cars[j].x-cars[i].x) <70){
+                    console.log("blyat")
                     carsProp[i].velocity = {x:0, y:0}
+                    // console.log(carsProp[i], i)
                 }
-                else if((carsProp[i].road ==1 || carsProp[i].road ==-1) && carsProp[i].velocity.x ==0 && carsProp[i].velocity.y == 0 && (cars[j].x-cars[i].x) >70){
+                else if((carsProp[i].road ==1 || carsProp[i].road ==-1) && carsProp[i].velocity.x ==0 && carsProp[i].velocity.y == 0 && Math.abs(cars[j].x-cars[i].x) >70){
                     // console.log("bl")
                     carsProp[i].velocity = {x:2, y:1.13}
                 }
-                else if(carsProp[i].road ==0 && carsProp[i].velocity.x ==0 && carsProp[i].velocity.y == 0 && (cars[j].x-cars[i].x) >70){
+                else if(carsProp[i].road ==0 && carsProp[i].velocity.x ==0 && carsProp[i].velocity.y == 0 && Math.abs(cars[j].x-cars[i].x) >70){
                     carsProp[i].velocity = {x:2, y:0}
                 }
             }
@@ -155,28 +132,46 @@ window.onload = ()=>{
     // creating cars
     
     window.onclick = (e)=>{
+        let flag = 1
         if(e.clientY < window.innerHeight/2){
-            // if()
-            carsProp.push({
-                velocity:{x:2 ,y:1.13},
-                position:{x:60,y:40 + Math.random()*window.innerHeight/20},
-                angle: 2,
-                road:1
-            })
-            current+=1
-            road1.push(current)
+            for(let k=0; k<len; k++){
+                console.log(cars[k].x,k)
+                if (cars[k].x < 70 && carsProp[k].road==1){
+                    flag = 0
+                }
+            }
+            if (flag){
+                carsProp.push({
+                    velocity:{x:2 ,y:1.13},
+                    position:{x:60,y:40 + Math.random()*window.innerHeight/20},
+                    angle: 2,
+                    road:1
+                })
+                current+=1
+                road1.push(current)
+            }
+            
         }
         else{
-            carsProp.push({
-                velocity:{x:2,y:1.13},
-                position:{x:60,y:window.innerHeight-40 - Math.random()*window.innerHeight/20},
-                angle: 1,
-                road:-1
-            })
-            current+=1
-            road2.push(current)
+            for(let k=0; k<len; k++){
+                if (cars[k].x <70 && carsProp[k].road==-1){
+                    flag = 0
+                }
+            }
+            if (flag){
+                carsProp.push({
+                    velocity:{x:2,y:1.13},
+                    position:{x:60,y:window.innerHeight-40 - Math.random()*window.innerHeight/20},
+                    angle: 1,
+                    road:-1
+                })
+                current+=1
+                road2.push(current)
+            }
+            
         }
-        const carTexture = PIXI.Texture.from("./car.svg")
+        if (flag){
+            const carTexture = PIXI.Texture.from("./car.svg")
         cars.push(new PIXI.Sprite(carTexture))
         cars[cars.length-1].height = window.innerWidth/25
         cars[cars.length-1].width = window.innerWidth/35
@@ -185,6 +180,7 @@ window.onload = ()=>{
         cars[cars.length-1].y = carsProp[cars.length-1].position.y
         cars[cars.length-1].rotation = carsProp[cars.length-1].angle
         container.addChild(cars[cars.length-1])
+        }
     }
 
     // trafficLight
