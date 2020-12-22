@@ -4,16 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
-    <script src="./index.js" type="module"></script>
+    <script src="./scripts/pixi.min.js"></script>
+    <script src="./scripts/index.js" type="module"></script>
     <title>Document</title>
 </head>
 <body>
-    <div id="controlls">
-        <label for="speed">Speed</label>
-        <input type="number" name="speed" id="speed">
+    <div id="controller">
+        speed
+        <input type="number" name="" id="speed" value="1">
+        <div id="road1">
+            Road1
+            <input type="button" value="ambulance" id="ambulance1">
+            <input type="button" value="car" id="car1">
+        </div>
+        <div id="road2">
+            Road2
+            <input type="button" value="ambulance" id="ambulance2">
+            <input type="button" value="car" id="car2">
+        </div>
     </div>
-    <div id="canvas"></div>
+    <div id="canvas">
 
+    </div>
 </body>
 </html>
